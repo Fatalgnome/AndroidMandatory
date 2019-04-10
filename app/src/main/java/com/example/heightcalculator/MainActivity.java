@@ -23,11 +23,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private LatLng position = new LatLng(21, -30);
-    private String elevationBaseUrl = "https://maps.googleapis.com/maps/api/elevation/json?";
-    private String curLocation = "locations=" + new LatLng(position.latitude,position.longitude);
-    private String key = "&key=" + R.string.google_maps_key;
-    private String completeUrl = elevationBaseUrl + curLocation + key;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -52,5 +48,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+
+    //TODO: Add Asynctask, use the GetJSON class. Check slides for more info (santa download example)
 
 }
