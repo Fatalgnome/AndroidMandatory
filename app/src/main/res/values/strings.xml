@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HeightCalculator</string>
+    <string name="heightView">Height:</string>
+    <string name="meters">M</string>
+    <string name="meterValue">100</string>
+    <string name="update">Update</string>
 </resources>
