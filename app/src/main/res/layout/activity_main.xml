@@ -14,7 +14,7 @@
         android:text="@string/heightView"
         android:layout_gravity="center"
         android:textSize="40sp"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="20dp"/>
 
 
     <LinearLayout
@@ -45,12 +45,12 @@
         android:text="@string/update"
         android:layout_gravity="center_horizontal"/>
 
-    <ProgressBar
+    <!--ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"/>
+        android:layout_marginEnd="20dp"/-->
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
