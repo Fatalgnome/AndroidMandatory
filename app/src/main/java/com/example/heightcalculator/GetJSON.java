@@ -51,7 +51,6 @@ public class GetJSON extends AsyncTask<Void,Void,Void>
                         JSONObject jsonObject = new JSONObject(response.body().string());
                         Log.d("debug",response.body().string());
                         JSONArray results = jsonObject.getJSONArray("results");
-
                         height = (int)results.get(0);
 
                     } catch (JSONException e) {
