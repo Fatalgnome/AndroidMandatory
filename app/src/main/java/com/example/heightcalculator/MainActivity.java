@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLocation();
         Button updateButton = findViewById(R.id.updateBtn);
 
         updateButton.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
-        getLocation();
         // Add a marker on your current position and move the camera
         //TODO: Use current position
     }
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case 1:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-                    getLocation();
+                    //getLocation();
                 }
                 else
                 {
