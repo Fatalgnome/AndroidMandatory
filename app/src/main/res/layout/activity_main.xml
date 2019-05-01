@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/updateBtn"
         android:text="@string/update"
+        android:onClick="getLocation"
         android:layout_gravity="center_horizontal"/>
 
     <!--ProgressBar

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatCallback;
 import android.view.View;
 import android.webkit.HttpAuthHandler;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationListener locationListener;
     private FusedLocationProviderClient fusedLocationClient;
     private LatLng curPos;
+    private TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,14 +50,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        Button updateButton = findViewById(R.id.updateBtn);
+        text = findViewById(R.id.meterValue);
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
+        /*updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getLocation();
             }
-        });
+        });*/
     }
 
 
@@ -87,11 +89,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    public void getLocation()
+    public void getLocation(View view)
     {
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
+            //GetJSON task = new GetJSON(text);
+            //task.execute();
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override

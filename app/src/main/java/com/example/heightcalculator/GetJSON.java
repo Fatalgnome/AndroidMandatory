@@ -2,12 +2,14 @@ package com.example.heightcalculator;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.Console;
 import java.io.IOException;
@@ -30,8 +32,16 @@ public class GetJSON extends AsyncTask<Void,Void,Void>
     private String curLocation = "locations=" + new LatLng(position.latitude,position.longitude);
     private String key = "&key=" + R.string.google_maps_key;
     private String completeUrl = elevationBaseUrl + curLocation + key;
-    OkHttpClient client = new OkHttpClient();
-    Request request = new Request.Builder().url(completeUrl).build();
+    private OkHttpClient client = new OkHttpClient();
+    private Request request = new Request.Builder().url(completeUrl).build();
+
+    //Fix Memory leak
+    private TextView text;
+
+    public GetJSON(TextView text)
+    {
+        this.text = text;
+    }
 
     @Override
     protected Void doInBackground(Void... arg0)
@@ -60,6 +70,14 @@ public class GetJSON extends AsyncTask<Void,Void,Void>
         });
         return null;
     }
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+        text.setText(height);
+        super.onPostExecute(aVoid);
+    }
+
 
     public LatLng getPosition() { return position;}
     public void setPosition(LatLng position) { this.position = position; }
