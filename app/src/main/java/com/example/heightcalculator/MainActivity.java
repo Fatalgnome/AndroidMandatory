@@ -46,18 +46,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        text = findViewById(R.id.meterValue);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        if (mapFragment != null)
+        {
+            mapFragment.getMapAsync(this);
+        }
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        text = findViewById(R.id.meterValue);
-
-        /*updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getLocation();
-            }
-        });*/
     }
 
 
@@ -66,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap)
     {
         mMap = googleMap;
-        // Add a marker on your current position and move the camera
-        //TODO: Use current position
     }
 
 
@@ -79,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case 1:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 {
-                    //getLocation();
+                    getLocation(findViewById(R.id.updateBtn));
                 }
                 else
                 {
@@ -91,19 +85,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void getLocation(View view)
     {
-
+        //GetJSON task = new GetJSON(text, new LatLng(21, -21));
+        //task.execute();
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
-            //GetJSON task = new GetJSON(text);
-            //task.execute();
+
             fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>()
+                    {
                         @Override
-                        public void onSuccess(Location location) {
+                        public void onSuccess(Location location)
+                        {
                             if (location != null)
                             {
                                 curPos = new LatLng(location.getLatitude(), location.getLongitude());
                             }
+
                             if(curPos != null)
                             {
                                 mMap.addMarker(new MarkerOptions().position(curPos).title("Current location"));

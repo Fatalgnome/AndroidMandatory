@@ -4,4 +4,5 @@
     <string name="meters">M</string>
     <string name="meterValue">100</string>
     <string name="update">Update</string>
+    <string name="failed">Height not found</string>
 </resources>
