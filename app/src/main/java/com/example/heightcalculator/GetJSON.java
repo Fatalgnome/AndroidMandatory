@@ -1,5 +1,6 @@
 package com.example.heightcalculator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.NumberFormat;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,11 +27,12 @@ public class GetJSON
     private LatLng position;
     private double height;
     private TextView text;
-    private Context context;
+    private Activity activity;
+    private String rounded;
 
-    public GetJSON(Context context, TextView text, LatLng position)
+    public GetJSON(Activity activity, TextView text, LatLng position)
     {
-        this.context = context;
+        this.activity = activity;
         this.text = text;
         this.position = position;
     }
@@ -51,14 +54,25 @@ public class GetJSON
             public void onResponse(Call call, Response response) throws IOException
             {
                 try {
+                    //Saving response in variables, because response can only be used once
                     ResponseBody body = response.body();
                     String bodyString = body.string();
                     JSONObject jsonObject = new JSONObject(bodyString);
-                    Log.d("debug",bodyString);
+
+                    //Getting the Array with the results from the API
                     JSONArray results = jsonObject.getJSONArray("results");
                     JSONObject elevation = (JSONObject)results.get(0);
+
+                    //Getting the elevation within the array
                     height = elevation.getDouble("elevation");
-                    Log.d("debug", ""+height);
+
+                    //Restricting the number to show only 2 digits
+                    NumberFormat nf = NumberFormat.getNumberInstance();
+                    nf.setMaximumFractionDigits(2);
+                    rounded = nf.format(height);
+
+                    //Since we cant update UI in a "do in background", we need to use a runnable
+                    SetHeight();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -74,18 +88,16 @@ public class GetJSON
 
     }
     private void SetHeight(){
-        //context.runOnUiThread(HeightRun);
+        activity.runOnUiThread(HeightRun);
     }
+
     public Runnable HeightRun = new Runnable() {
         @Override
         public void run() {
-            text.setText("" + height);
+            text.setText(rounded);
         }
     };
 
-    public double getHeight() {
-        return height;
-    }
 }
 
 

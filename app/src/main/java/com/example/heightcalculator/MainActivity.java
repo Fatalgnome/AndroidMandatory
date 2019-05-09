@@ -1,6 +1,7 @@
 package com.example.heightcalculator;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -97,9 +98,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
                                 mMap.animateCamera(CameraUpdateFactory.zoomIn());
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-                                getJSON = new GetJSON(context, text, new LatLng(curPos.latitude, curPos.longitude));
+                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude));
                                 getJSON.StartClient();
-                                SetHeight();
                             }
                         }
                     });
@@ -109,10 +109,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1 );
         }
     }
-
-    private void SetHeight()
-    {
-        this.runOnUiThread(getJSON.HeightRun);
-    }
-
 }
