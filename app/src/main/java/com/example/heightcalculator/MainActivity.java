@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -48,6 +51,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         context = this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_info:
+                        Toast.makeText(MainActivity.this, "Info", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_location:
+                        Toast.makeText(MainActivity.this, "Location", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_list:
+                        Toast.makeText(MainActivity.this, "List", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 
