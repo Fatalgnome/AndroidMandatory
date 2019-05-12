@@ -8,6 +8,8 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -51,13 +53,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         context = this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        FragmentManager fm = getSupportFragmentManager();
+        DatabaseFragment datFrag = (DatabaseFragment)getSupportFragmentManager().findFragmentById(R.id.database);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_info:
-                        Toast.makeText(MainActivity.this, "Info", Toast.LENGTH_SHORT).show();
+
                         break;
                     case R.id.action_location:
                         Toast.makeText(MainActivity.this, "Location", Toast.LENGTH_SHORT).show();
