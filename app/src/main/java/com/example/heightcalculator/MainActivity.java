@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GetJSON getJSON;
     private ListView listView;
     private Database db;
+    private ArrayAdapter<Values> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +55,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         context = this;
         db = new Database(this);
         db.getAllHeights();
+        adapter = new ArrayAdapter<Values>(this, android.R.layout.simple_expandable_list_item_1, db.getAllHeights());
         listView = findViewById(R.id.heightList);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
+        listView.setAdapter(adapter);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
                                 mMap.animateCamera(CameraUpdateFactory.zoomIn());
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude), listView, db);
+                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude), listView, db, adapter);
                                 getJSON.StartClient();
 
                             }

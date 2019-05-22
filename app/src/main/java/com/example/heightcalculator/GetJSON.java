@@ -34,13 +34,13 @@ public class GetJSON
     private ArrayAdapter<Values> adapter;
     private Database db;
 
-    public GetJSON(Activity activity, TextView text, LatLng position, ListView listView, Database db)
+    public GetJSON(Activity activity, TextView text, LatLng position, ListView listView, Database db, ArrayAdapter<Values> adapter)
     {
         this.activity = activity;
         this.text = text;
         this.position = position;
         this.db = db;
-        adapter = new ArrayAdapter<Values>(activity, android.R.layout.simple_expandable_list_item_1, db.getAllHeights());
+        this.adapter = adapter;
         listView.setAdapter(adapter);
 
     }
