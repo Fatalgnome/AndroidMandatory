@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Context context;
     private GetJSON getJSON;
     private ListView listView;
+    private Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         text = findViewById(R.id.meterValue);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         context = this;
-
+        db = new Database(this);
+        db.getAllHeights();
         listView = findViewById(R.id.heightList);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
                                 mMap.animateCamera(CameraUpdateFactory.zoomIn());
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude), listView);
+                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude), listView, db);
                                 getJSON.StartClient();
 
                             }

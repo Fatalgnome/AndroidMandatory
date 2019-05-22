@@ -34,12 +34,12 @@ public class GetJSON
     private ArrayAdapter<Values> adapter;
     private Database db;
 
-    public GetJSON(Activity activity, TextView text, LatLng position, ListView listView)
+    public GetJSON(Activity activity, TextView text, LatLng position, ListView listView, Database db)
     {
         this.activity = activity;
         this.text = text;
         this.position = position;
-        db = new Database(activity);
+        this.db = db;
         adapter = new ArrayAdapter<Values>(activity, android.R.layout.simple_expandable_list_item_1, db.getAllHeights());
         listView.setAdapter(adapter);
 
@@ -114,12 +114,11 @@ public class GetJSON
     public Runnable AddItemToList = new Runnable() {
         @Override
         public void run() {
-            Database dbHandler = new Database(activity);
 
             Values value = new Values();
             value.setValue(rounded);
 
-            dbHandler.addValue(value);
+            db.addValue(value);
             adapter.add(value);
         }
     };
