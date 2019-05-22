@@ -3,17 +3,20 @@ package com.example.heightcalculator;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,43 +41,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private TextView text;
     private Context context;
     private GetJSON getJSON;
+    private ListView listView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         text = findViewById(R.id.meterValue);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        context = this;
+
+        listView = findViewById(R.id.heightList);
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        if (mapFragment != null)
-        {
+        if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-        context = this;
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        FragmentManager fm = getSupportFragmentManager();
-        DatabaseFragment datFrag = (DatabaseFragment)getSupportFragmentManager().findFragmentById(R.id.database);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_info:
-
-                        break;
-                    case R.id.action_location:
-                        Toast.makeText(MainActivity.this, "Location", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.action_list:
-                        Toast.makeText(MainActivity.this, "List", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                return true;
-            }
-        });
     }
-
 
 
     @Override
@@ -123,8 +108,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curPos, 15));
                                 mMap.animateCamera(CameraUpdateFactory.zoomIn());
                                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude));
+                                getJSON = new GetJSON((Activity) context, text, new LatLng(curPos.latitude, curPos.longitude), listView);
                                 getJSON.StartClient();
+
                             }
                         }
                     });

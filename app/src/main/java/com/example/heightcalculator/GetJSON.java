@@ -3,6 +3,8 @@ package com.example.heightcalculator;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -29,12 +31,18 @@ public class GetJSON
     private TextView text;
     private Activity activity;
     private String rounded;
+    private ArrayAdapter<Values> adapter;
+    private Database db;
 
-    public GetJSON(Activity activity, TextView text, LatLng position)
+    public GetJSON(Activity activity, TextView text, LatLng position, ListView listView)
     {
         this.activity = activity;
         this.text = text;
         this.position = position;
+        db = new Database(activity);
+        adapter = new ArrayAdapter<Values>(activity, android.R.layout.simple_expandable_list_item_1, db.getAllHeights());
+        listView.setAdapter(adapter);
+
     }
 
 
@@ -71,8 +79,9 @@ public class GetJSON
                     nf.setMaximumFractionDigits(2);
                     rounded = nf.format(height);
 
-                    //Since we cant update UI in a "do in background", we need to use a runnable
+                    //Since we cant update UI in a "do in background", we need to use runnables
                     SetHeight();
+                    SetItems();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -91,10 +100,27 @@ public class GetJSON
         activity.runOnUiThread(HeightRun);
     }
 
+    private void SetItems(){
+        activity.runOnUiThread(AddItemToList);
+    }
+
     public Runnable HeightRun = new Runnable() {
         @Override
         public void run() {
             text.setText(rounded);
+        }
+    };
+
+    public Runnable AddItemToList = new Runnable() {
+        @Override
+        public void run() {
+            Database dbHandler = new Database(activity);
+
+            Values value = new Values();
+            value.setValue(rounded);
+
+            dbHandler.addValue(value);
+            adapter.add(value);
         }
     };
 
