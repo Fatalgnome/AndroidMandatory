@@ -29,11 +29,11 @@ public class Database extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        String CREATE_PRODUCTS_TABLE = "CREATE TABLE " +
+        String CREATE_HEIGHTS_TABLE = "CREATE TABLE " +
                 TABLE_HEIGHTS + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_VALUE
                 + " TEXT" + ")";
-        db.execSQL(CREATE_PRODUCTS_TABLE);
+        db.execSQL(CREATE_HEIGHTS_TABLE);
     }
 
     @Override

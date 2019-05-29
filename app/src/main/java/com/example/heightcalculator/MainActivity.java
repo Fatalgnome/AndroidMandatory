@@ -122,7 +122,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         else
         {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1 );
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION},1 );
         }
     }
 }

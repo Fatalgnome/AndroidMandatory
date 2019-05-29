@@ -52,6 +52,8 @@ public class GetJSON
         OkHttpClient client = new OkHttpClient();
         String elevationBaseUrl = "https://maps.googleapis.com/maps/api/elevation/json?";
         String curLocation = "locations=" + position.latitude + "," + position.longitude;
+
+        //This should be hidden somewhere, and not publicly available
         String key = "&key=" + "AIzaSyDcUC_tIE-tFIV1HieNXe5j6C5vgy6q_yQ";
         String completeUrl = elevationBaseUrl + curLocation + key;
         Request request = new Request.Builder().url(completeUrl).build();
